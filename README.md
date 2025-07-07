@@ -24,8 +24,6 @@ Nel tuo file `.env` aggiungi:
 
 ```env
 NEWO_TOKEN=la_tua_api_key
-NEWO_URL=https://api.newo.dev
-NEWO_COMPANY_ID=la_tua_company_uuid
 ```
 
 ---
