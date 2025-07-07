@@ -1,0 +1,25 @@
+{
+  "name": "newo-io/laravel-sdk",
+  "description": "SDK Laravel per integrare le API di Newo",
+  "type": "library",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Newo\\Sdk\\": "src/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Newo\\Sdk\\NewoServiceProvider"
+      ],
+      "aliases": {
+        "Newo": "Newo\\Sdk\\Facades\\Newo"
+      }
+    }
+  },
+  "require": {
+    "php": ">=8.1",
+    "illuminate/support": "^10.0|^11.0"
+  }
+}
