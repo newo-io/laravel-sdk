@@ -4,24 +4,13 @@ Pacchetto Laravel per integrare le API di fatturazione di [Newo](https://newo.io
 
 ## ✅ Installazione
 
-1. Aggiungi nel `composer.json` del tuo progetto Laravel:
-
-```json
-"repositories": [
-  {
-    "type": "path",
-    "url": "packages/newo/sdk"
-  }
-]
-```
-
-2. Installa il pacchetto:
+1. Installa il pacchetto:
 
 ```bash
-composer require newo-io/laravel-sdk:dev-main
+composer require newo-io/laravel-sdk
 ```
 
-3. Pubblica il file di configurazione:
+2. Pubblica il file di configurazione:
 
 ```bash
 php artisan vendor:publish --tag=newo-config
