@@ -10,12 +10,6 @@ Pacchetto Laravel per integrare le API di fatturazione di [Newo](https://newo.io
 composer require newo-io/laravel-sdk
 ```
 
-2. Pubblica il file di configurazione:
-
-```bash
-php artisan vendor:publish --tag=newo-config
-```
-
 ---
 
 ## ⚙️ Configurazione
