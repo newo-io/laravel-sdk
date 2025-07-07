@@ -52,4 +52,4 @@ Newo::createInvoiceFromPIVA([
 ]);
 ```
 
-Per la struttura completa dei payload, fai riferimento alla [documentazione API Newo](https://api.newo.dev).
+Per la struttura completa dei payload, fai riferimento alla [documentazione API Newo](https://api.newo.io).
