@@ -6,44 +6,47 @@ use Illuminate\Support\ServiceProvider;
 use OnestoIt\Sdk\OnestoServiceProvider;
 
 /**
- * Provider di compatibilità.
+ * Provider di compatibilità per il vecchio nome del pacchetto.
  *
  * Tutto il lavoro vero è fatto da OnestoServiceProvider (binding 'onesto',
- * publish config). Qui ci limitiamo a:
- *  - assicurarci che il provider nuovo sia registrato (auto-discovery lo fa
- *    già, ma chi lo elenca a mano in config/app.php deve ottenere comunque
- *    un sistema funzionante con il solo NewoServiceProvider).
- *  - alias del container 'newo' -> 'onesto', così la vecchia Facade `Newo`
- *    continua a risolvere.
+ * publish del config). Qui ci limitiamo a:
+ *  - registrare il provider del nuovo SDK se non l'ha già fatto l'auto-discovery
+ *    (necessario per chi elenca a mano questo provider in config/app.php);
+ *  - mappare i vecchi alias del container `'newo'` e `Newo\Sdk\Newo::class` sul
+ *    nuovo binding `'onesto'`, così la vecchia Facade `Newo` continua a
+ *    risolvere allo stesso oggetto;
+ *  - leggere le vecchie env legacy come fallback se quelle nuove non sono
+ *    valorizzate (token / base url), così chi aggiorna solo il pacchetto e
+ *    non tocca il `.env` non si rompe.
  */
 class NewoServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        // Registra l'SDK nuovo se non lo è già.
+        // Registra il provider del nuovo SDK se non è già stato caricato.
         if (! $this->app->providerIsLoaded(OnestoServiceProvider::class)) {
             $this->app->register(OnestoServiceProvider::class);
         }
 
-        // Vecchio binding container 'newo' = nuovo 'onesto'.
-        $this->app->alias('onesto', 'newo');
+        // Fallback env legacy: solo se la versione nuova non è settata.
+        $config = $this->app['config'];
 
-        // Vecchia classe Newo\Sdk\Newo = nuova OnestoIt\Sdk\Onesto.
+        if (! $config->get('onesto.token') && ($legacyToken = env('NEWO_TOKEN'))) {
+            $config->set('onesto.token', $legacyToken);
+        }
+
+        if (! env('ONESTO_URL') && ($legacyUrl = env('NEWO_URL'))) {
+            $config->set('onesto.url', $legacyUrl);
+        }
+
+        // Alias del container: 'newo' e Newo\Sdk\Newo::class risolvono sul
+        // singleton 'onesto'.
+        $this->app->alias('onesto', 'newo');
         $this->app->alias('onesto', Newo::class);
     }
 
     public function boot(): void
     {
         // niente — il publishing del config lo fa OnestoServiceProvider.
-    }
-
-    /**
-     * Compatibilità per Laravel < 11 dove providerIsLoaded() non esiste.
-     */
-    protected function providerIsLoaded(string $provider): bool
-    {
-        return method_exists($this->app, 'providerIsLoaded')
-            ? $this->app->providerIsLoaded($provider)
-            : array_key_exists($provider, $this->app->getLoadedProviders());
     }
 }
