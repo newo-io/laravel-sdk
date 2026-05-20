@@ -2,25 +2,21 @@
 
 namespace Newo\Sdk;
 
-use Illuminate\Support\Facades\Http;
+use OnestoIt\Sdk\Onesto;
 
-class Newo
+/**
+ * Classe di compatibilità.
+ *
+ * Era la classe client del vecchio SDK `newo-io/laravel-sdk`. Ora è solo un
+ * sottotipo della nuova `OnestoIt\Sdk\Onesto`, così:
+ *
+ *   - `new \Newo\Sdk\Newo()` continua a funzionare
+ *   - i metodi `createInvoiceManually()` / `createInvoiceFromPIVA()` sono
+ *     ereditati intatti
+ *   - eventuali `instanceof Newo\Sdk\Newo` nei consumer restano veri
+ *
+ * @deprecated Usa OnestoIt\Sdk\Onesto.
+ */
+class Newo extends Onesto
 {
-    protected function post(string $endpoint, array $data)
-    {
-        return Http::withToken(config('newo.token'))
-            ->acceptJson()
-            ->post(config('newo.url') . $endpoint, $data)
-            ->json();
-    }
-
-    public function createInvoiceManually(array $data)
-    {
-        return $this->post('/fatture/nuova/manuale', $data);
-    }
-
-    public function createInvoiceFromPIVA(array $data)
-    {
-        return $this->post('/fatture/nuova/piva', $data);
-    }
 }

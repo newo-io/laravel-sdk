@@ -1,25 +1,33 @@
 {
-  "name": "newo-io/laravel-sdk",
-  "description": "SDK Laravel per integrare le API di Newo",
-  "type": "library",
-  "license": "MIT",
-  "autoload": {
-    "psr-4": {
-      "Newo\\Sdk\\": "src/"
-    }
-  },
-  "extra": {
-    "laravel": {
-      "providers": [
-        "Newo\\Sdk\\NewoServiceProvider"
-      ],
-      "aliases": {
-        "Newo": "Newo\\Sdk\\Facades\\Newo"
-      }
-    }
-  },
-  "require": {
-    "php": ">=8.1",
-    "illuminate/support": ">=9.0"
-  }
+    "name": "newo-io/laravel-sdk",
+    "description": "DEPRECATO — usa onesto-it/laravel-sdk. Questo pacchetto è un metapackage di compatibilità: installa onesto-it/laravel-sdk e mantiene attivi i vecchi nomi `Newo::` / `Newo\\Sdk\\` / `NEWO_TOKEN`.",
+    "type": "library",
+    "license": "MIT",
+    "abandoned": "onesto-it/laravel-sdk",
+    "keywords": ["onesto", "newo", "laravel", "sdk", "deprecated"],
+    "support": {
+        "issues": "https://github.com/Onesto-it/laravel-sdk/issues",
+        "source": "https://github.com/Onesto-it/laravel-sdk"
+    },
+    "require": {
+        "php": ">=8.1",
+        "onesto-it/laravel-sdk": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Newo\\Sdk\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Newo\\Sdk\\NewoServiceProvider"
+            ],
+            "aliases": {
+                "Newo": "Newo\\Sdk\\Facades\\Newo"
+            }
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
 }
